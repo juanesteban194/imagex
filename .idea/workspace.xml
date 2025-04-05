@@ -5,10 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="85cd8b48-cbbc-4041-a580-aab62ccf1723" name="Changes" comment="otra 2">
-      <change afterPath="$PROJECT_DIR$/app/Clase_dibujador.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Clase_filtro.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Clase_recorte.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/interfaz.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/interfaz.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Clase_Editorimagen.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/Clase_Editorimagen.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,7 +23,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="otra" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -51,13 +49,13 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "Clase__editor__de__imagen"
   }
-}</component>
+}]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -126,6 +124,31 @@
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="ejemplo" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="main" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="origin/main" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
@@ -136,7 +159,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="main" />
+                        <option value="Clase_editor_de_imagen" />
                       </list>
                     </value>
                   </entry>
@@ -154,6 +177,7 @@
     <MESSAGE value="print" />
     <MESSAGE value="otra" />
     <MESSAGE value="otra 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="otra 2" />
+    <MESSAGE value="prueba" />
+    <option name="LAST_COMMIT_MESSAGE" value="prueba" />
   </component>
 </project>
