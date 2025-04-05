@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="85cd8b48-cbbc-4041-a580-aab62ccf1723" name="Changes" comment="instalar libreria">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Clase_Editorimagen.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/Clase_Editorimagen.py" afterDir="false" />
-    </list>
+    <list default="true" id="85cd8b48-cbbc-4041-a580-aab62ccf1723" name="Changes" comment="implementación de algunas funciones de la clase EditorImagen" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -129,7 +126,15 @@
       <option name="project" value="LOCAL" />
       <updated>1743822982535</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="implementación de algunas funciones de la clase EditorImagen">
+      <option name="closed" value="true" />
+      <created>1743824585015</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1743824585015</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -188,6 +193,7 @@
     <MESSAGE value="otra 2" />
     <MESSAGE value="prueba" />
     <MESSAGE value="instalar libreria" />
-    <option name="LAST_COMMIT_MESSAGE" value="instalar libreria" />
+    <MESSAGE value="implementación de algunas funciones de la clase EditorImagen" />
+    <option name="LAST_COMMIT_MESSAGE" value="implementación de algunas funciones de la clase EditorImagen" />
   </component>
 </project>
