@@ -13,13 +13,8 @@ class InterfazEditor:
         self.ventana.geometry("700x500")
 
 
-        # Área para mostrar imagen
-        self.label_imagen = tk.Label(self.ventana, text = " Imagen no cargada ")
-        self.label_imagen.pack()
-
-
         # Canvas para mostrar imagen
-        self.canvas = tk.Canvas(self.ventana, bg="gray", width=400, height=400)
+        self.canvas = tk.Canvas(self.ventana, bg="gray", width=500, height=500)
         self.canvas.pack(pady=10)
 
         # Variables para selección de recorte
@@ -36,8 +31,6 @@ class InterfazEditor:
         btn_cargar = tk.Button(self.ventana, text=" Cargar Imagen", command=self.cargar_imagen)
         btn_cargar.pack()
 
-        self.ventana.mainloop()
-
         # Lista de filtros disponibles
         self.opciones_filtro = ["grises", "invertir", "brillo", "contraste"]
         self.filtro_seleccionado = tk.StringVar(value=self.opciones_filtro[0])
@@ -50,19 +43,22 @@ class InterfazEditor:
         btn_aplicar_filtro = tk.Button(self.ventana, text="🎨 Aplicar Filtro", command=self.aplicar_filtro_desde_interfaz)
         btn_aplicar_filtro.pack()
 
+        self.ventana.mainloop()
+
     def cargar_imagen(self):
         ruta = filedialog.askopenfilename(filetypes = [("Imágenes JPG", "*.jpg *.jpeg " )])
         if ruta:
             self.editor.cargar_imagen(ruta)
-            img: ImageTk.PhotoImage = ImageTk.PhotoImage(self.editor.imagen_editada.resize((300, 300)))
-            self.label_imagen.configure( image = img)
-            self.label_imagen.image = img  #guarda referencia a la imagen o no se mostrará
+            self.mostrar_imagen()
+
         else:
             messagebox.showinfo("Aviso", "No se seleccionó ninguna imagen.")
 
     def mostrar_imagen(self):
-        imagen = self.editor.imagen_editada.resize((400, 400))
+
+        imagen = self.editor.imagen_editada.resize((500, 500))  # mejor tamaño
         self.img_tk: PhotoImage = ImageTk.PhotoImage(imagen)
+        self.canvas.delete("all")  # limpia canvas
         self.canvas.create_image(0, 0, anchor="nw", image=self.img_tk)
 
 

@@ -4,6 +4,7 @@ from app.services.historial_cambios import HistorialCambios
 from PIL import ImageEnhance
 from app.Clases_principales.dibujador import Dibujador
 from app.Clases_principales.Recorte import Recorte
+from app.Clases_principales.filtro import Filtro
 
 
 
@@ -165,6 +166,17 @@ class EditorImagen:
         self.historial.guardar_estado(imagen_recortada)
 
         print(" Imagen recortada correctamente ")
+
+    def aplicar_filtro(self, tipo: str) -> None:
+
+        if self.imagen_editada is None:
+            print("No hay imagen cargada para aplicar filtro.")
+            return
+
+        filtro = Filtro(tipo)
+        imagen_filtrada = filtro.aplicar_filtro(self.imagen_editada)
+        self.imagen_editada = imagen_filtrada
+        self.actualizar_historial()
 
 
 
