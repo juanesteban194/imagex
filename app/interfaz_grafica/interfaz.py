@@ -86,10 +86,13 @@ class InterfazEditor:
         self.editor.recortar_imagen((x1, y1, x2, y2))
         self.mostrar_imagen()
 
+        messagebox.showinfo("Recorte aplicado", "La imagen ha sido recortada correctamente.")
+
     def aplicar_filtro_desde_interfaz(self):
         tipo = self.filtro_seleccionado.get()
         self.editor.aplicar_filtro(tipo)
         self.mostrar_imagen()
+
 
 
 
