@@ -6,6 +6,7 @@ from PIL import ImageEnhance
 
 
 
+
 class EditorImagen:
 
     def __init__(self):
