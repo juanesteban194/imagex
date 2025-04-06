@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import filedialog, messagebox
+from tkinter import filedialog, messagebox, PhotoImage
 from PIL import ImageTk
 from app.Clases_principales.Editorimagen import EditorImagen
 
@@ -49,17 +49,33 @@ class InterfazEditor:
 
     def mostrar_imagen(self):
         imagen = self.editor.imagen_editada.resize((400, 400))
-        self.img_tk = ImageTk.PhotoImage(imagen)
+        self.img_tk: PhotoImage = ImageTk.PhotoImage(imagen)
         self.canvas.create_image(0, 0, anchor="nw", image=self.img_tk)
 
 
-    def inicio_recorte(self, evento):
-        self.inicio_x = evento.x
-        self.inicio_y = evento.y
+    def inicio_recorte(self, evento_mouse):
+        self.inicio_x = evento_mouse.x
+        self.inicio_y = evento_mouse.y
         self.rect_id = self.canvas.create_rectangle(self.inicio_x, self.inicio_y, self.inicio_x, self.inicio_y, outline="red")
 
-    def dibujar_rectangulo(self, evento):
-        self.canvas.coords(self.rect_id, self.inicio_x, self.inicio_y, evento.x, evento.y)
+
+    def dibujar_rectangulo(self, evento_mouse):
+        self.canvas.coords(self.rect_id, self.inicio_x, self.inicio_y, evento_mouse.x, evento_mouse.y)
+
+
+    def aplicar_recorte(self, evento_mouse):
+
+        x1 = self.inicio_x
+        y1 = self.inicio_y
+        x2 = evento_mouse.x
+        y2 = evento_mouse.y
+
+        # Ordenar coordenadas para evitar recortes incorrectos
+        x1, x2 = sorted([x1, x2])
+        y1, y2 = sorted([y1, y2])
+
+        self.editor.recortar_imagen((x1, y1, x2, y2))
+        self.mostrar_imagen()
 
 
 
