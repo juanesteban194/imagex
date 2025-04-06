@@ -1,7 +1,8 @@
 from PIL import Image, ImageDraw
 
 class Dibujador:
-    def _init_(self, color_lapiz: str = "black", grosor_lapiz: int = 3, modo_activo: bool = True):
+
+    def __init__(self, color_lapiz: str = "black", grosor_lapiz: int = 3, modo_activo: bool = False):
 
         self.color_lapiz = color_lapiz
 
@@ -9,17 +10,9 @@ class Dibujador:
 
         self.modo_activo = modo_activo
 
-    def dibujar(
-        self,
-        imagen: Image,
-        coordenadas: list[tuple[int, int]],
-        color: str,
-        grosor: int
-    ) -> Image:
-        """
-        Dibuja una línea conectando todos los puntos en la lista de coordenadas,
-        usando el color y grosor indicados, sobre una copia de la imagen.
-        """
+    @staticmethod
+    def dibujar( imagen: Image, coordenadas: list[tuple[int, int]], color: str, grosor: int) -> Image:
+
         if imagen is None:
             print(" No se ha proporcionado una imagen válida")
             return None

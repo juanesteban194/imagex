@@ -4,9 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="85cd8b48-cbbc-4041-a580-aab62ccf1723" name="Changes" comment="otra 2">
+    <list default="true" id="85cd8b48-cbbc-4041-a580-aab62ccf1723" name="Changes" comment="cambios">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Clase_recorte.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/Clase_recorte.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Clase_recorte.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Claseses_principales/Editorimagen.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/Clases_principales/Editorimagen.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Claseses_principales/Recorte.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/Clases_principales/Recorte.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Claseses_principales/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/Clases_principales/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Claseses_principales/dibujador.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/Clases_principales/dibujador.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Claseses_principales/filtro.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/Clases_principales/filtro.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,6 +26,12 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="PUSH_TAGS">
+      <GitPushTagMode>
+        <option name="argument" value="--tags" />
+        <option name="title" value="All" />
+      </GitPushTagMode>
+    </option>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
         <entry key="$PROJECT_DIR$" value="main" />
@@ -40,6 +51,9 @@
     &quot;accountId&quot;: &quot;dd9c6e68-9716-4aed-89aa-239ca27bcc11&quot;
   }
 }</component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/app/Clases_principales/Editorimagen.py" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
 }</component>
@@ -53,9 +67,21 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Clase__recorte&quot;
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Fotos_Prueba" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Fotos_prueba " />
+      <recent name="$PROJECT_DIR$/app/Claseses_principales" />
+      <recent name="$PROJECT_DIR$/app/interfaz_grafica" />
+      <recent name="$PROJECT_DIR$/app/api" />
+      <recent name="$PROJECT_DIR$/app/services" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -120,10 +146,38 @@
       <option name="project" value="LOCAL" />
       <updated>1743180677650</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="cambios">
+      <option name="closed" value="true" />
+      <created>1743905538714</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1743905538714</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="main" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="origin/main" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
@@ -152,6 +206,7 @@
     <MESSAGE value="print" />
     <MESSAGE value="otra" />
     <MESSAGE value="otra 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="otra 2" />
+    <MESSAGE value="cambios" />
+    <option name="LAST_COMMIT_MESSAGE" value="cambios" />
   </component>
 </project>

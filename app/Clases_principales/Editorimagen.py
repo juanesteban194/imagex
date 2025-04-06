@@ -2,6 +2,9 @@ import os
 from PIL.Image import Image
 from app.services.historial_cambios import HistorialCambios
 from PIL import ImageEnhance
+from app.Clases_principales.dibujador import Dibujador
+from app.Clases_principales.Recorte import Recorte
+
 
 
 class EditorImagen:
@@ -128,6 +131,42 @@ class EditorImagen:
             print(" Imagen actual guardada en el historial.")
         else:
             print(" No hay imagen editada para guardar en el historial.")
+
+
+    def dibujar_linea_libre(self, coordenadas: list[tuple[int, int]]):
+
+        if self.imagen_editada is None:
+            print(" No hay imagen cargada para dibujar.")
+            return
+
+        lapiz = Dibujador(color_lapiz="black", grosor_lapiz=3)
+
+        # Dibujar usando los atributos y parámetros dados
+        imagen_dibujada = lapiz.dibujar(imagen= self.imagen_editada, coordenadas=coordenadas,
+                          color=lapiz.color_lapiz, grosor=lapiz.grosor_lapiz)
+
+        # Guardar nueva imagen editada y registrar en historial
+        self.imagen_editada = imagen_dibujada
+        self.historial.guardar_estado(imagen_dibujada)
+
+        print(" Dibujo aplicado sobre la imagen actual ")
+
+    def recortar_imagen(self, coordenadas: tuple[int, int, int, int]):
+
+        if self.imagen_editada is None:
+            print(" No hay imagen cargada para recortar ")
+            return
+
+        imagen_recortada = Recorte.recortar(self.imagen_editada, coordenadas)
+
+
+        self.imagen_editada = imagen_recortada
+        self.historial.guardar_estado(imagen_recortada)
+
+        print(" Imagen recortada correctamente ")
+
+
+
 
 
 
