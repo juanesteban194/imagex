@@ -1,6 +1,4 @@
-def main():
-    print("Hello from imagex!")
-
+from app.interfaz_grafica.interfaz import InterfazEditor
 
 if __name__ == "__main__":
-    main()
+    InterfazEditor()

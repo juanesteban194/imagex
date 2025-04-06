@@ -40,7 +40,7 @@ class InterfazEditor:
         menu_filtros.pack(pady=5)
 
         # Botón para aplicar filtro seleccionado
-        btn_aplicar_filtro = tk.Button(self.ventana, text="🎨 Aplicar Filtro", command=self.aplicar_filtro_desde_interfaz)
+        btn_aplicar_filtro = tk.Button(self.ventana, text="Aplicar Filtro", command=self.aplicar_filtro_desde_interfaz)
         btn_aplicar_filtro.pack()
 
         self.ventana.mainloop()

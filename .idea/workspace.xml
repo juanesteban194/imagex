@@ -4,14 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="85cd8b48-cbbc-4041-a580-aab62ccf1723" name="Changes" comment="cambios">
+    <list default="true" id="85cd8b48-cbbc-4041-a580-aab62ccf1723" name="Changes" comment="correción clase filtro">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Clase_recorte.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Claseses_principales/Editorimagen.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/Clases_principales/Editorimagen.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Claseses_principales/Recorte.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/Clases_principales/Recorte.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Claseses_principales/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/Clases_principales/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Claseses_principales/dibujador.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/Clases_principales/dibujador.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Claseses_principales/filtro.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/Clases_principales/filtro.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,13 +58,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.main.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "implemetar__interfaz"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/Fotos_Prueba" />
@@ -154,7 +150,71 @@
       <option name="project" value="LOCAL" />
       <updated>1743905538714</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="correción de errores, implementación de funciones para Recorte y Dibujador en EditarImagen">
+      <option name="closed" value="true" />
+      <created>1743941855395</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1743941855395</updated>
+    </task>
+    <task id="LOCAL-00009" summary="implementación de interfaz, función cargar imagen">
+      <option name="closed" value="true" />
+      <created>1743943587880</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1743943587880</updated>
+    </task>
+    <task id="LOCAL-00010" summary="implementación de funciones inicio_recorte, dibujar rectángulo en clase interfaz">
+      <option name="closed" value="true" />
+      <created>1743944855075</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1743944855075</updated>
+    </task>
+    <task id="LOCAL-00011" summary="implementación de funciones aplicar recorte en clase interfaz">
+      <option name="closed" value="true" />
+      <created>1743945558336</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1743945558336</updated>
+    </task>
+    <task id="LOCAL-00012" summary="implementación de funciones aplicar filtro en clase interfaz">
+      <option name="closed" value="true" />
+      <created>1743946007000</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1743946007000</updated>
+    </task>
+    <task id="LOCAL-00013" summary="corrección de editor imagen y filtro">
+      <option name="closed" value="true" />
+      <created>1743947468087</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1743947468087</updated>
+    </task>
+    <task id="LOCAL-00014" summary="implementación de aplicar_filtro en EditarImagen">
+      <option name="closed" value="true" />
+      <created>1743949190554</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1743949190554</updated>
+    </task>
+    <task id="LOCAL-00015" summary="correción clase filtro">
+      <option name="closed" value="true" />
+      <created>1743951248223</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1743951248223</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -163,6 +223,11 @@
         <entry key="Branch">
           <value>
             <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="implemetar_interfaz" />
+                </option>
+              </RecentGroup>
               <RecentGroup>
                 <option name="FILTER_VALUES">
                   <option value="main" />
@@ -188,7 +253,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="main" />
+                        <option value="implemetar_interfaz" />
                       </list>
                     </value>
                   </entry>
@@ -207,6 +272,14 @@
     <MESSAGE value="otra" />
     <MESSAGE value="otra 2" />
     <MESSAGE value="cambios" />
-    <option name="LAST_COMMIT_MESSAGE" value="cambios" />
+    <MESSAGE value="correción de errores, implementación de funciones para Recorte y Dibujador en EditarImagen" />
+    <MESSAGE value="implementación de interfaz, función cargar imagen" />
+    <MESSAGE value="implementación de funciones inicio_recorte, dibujar rectángulo en clase interfaz" />
+    <MESSAGE value="implementación de funciones aplicar recorte en clase interfaz" />
+    <MESSAGE value="implementación de funciones aplicar filtro en clase interfaz" />
+    <MESSAGE value="corrección de editor imagen y filtro" />
+    <MESSAGE value="implementación de aplicar_filtro en EditarImagen" />
+    <MESSAGE value="correción clase filtro" />
+    <option name="LAST_COMMIT_MESSAGE" value="correción clase filtro" />
   </component>
 </project>
