@@ -7,10 +7,29 @@ from app.Clases_principales.Editorimagen import EditorImagen
 class InterfazEditor:
 
     def __init__(self):
+        self.img_tk = None
         self.editor = EditorImagen()
         self.ventana = tk.Tk()
         self.ventana.title("Editor de Imágenes")
-        self.ventana.geometry("700x500")
+        self.ventana.geometry("700x600")
+
+        #  Frame superior para controles
+        controles_frame = tk.Frame(self.ventana)
+        controles_frame.pack(side="top", fill="x", padx=10, pady=5)
+
+        # Botón para cargar imagen
+        btn_cargar = tk.Button(controles_frame, text=" Cargar Imagen", command=self.cargar_imagen)
+        btn_cargar.pack(side="left", padx=5)
+
+        # Lista y menú desplegable de filtros
+        self.opciones_filtro = ["grises", "invertir", "brillo", "contraste"]
+        self.filtro_seleccionado = tk.StringVar(value=self.opciones_filtro[0])
+        menu_filtros = tk.OptionMenu(controles_frame, self.filtro_seleccionado, *self.opciones_filtro)
+        menu_filtros.pack(side="left", padx=5)
+
+        # Botón aplicar filtro
+        btn_aplicar_filtro = tk.Button(controles_frame, text = " Aplicar Filtro", command=self.aplicar_filtro_desde_interfaz)
+        btn_aplicar_filtro.pack(side="left", padx=5)
 
 
         # Canvas para mostrar imagen
@@ -27,21 +46,6 @@ class InterfazEditor:
         self.canvas.bind("<B1-Motion>", self.dibujar_rectangulo)
         self.canvas.bind("<ButtonRelease-1>", self.aplicar_recorte)
 
-        # Botón para cargar imagen
-        btn_cargar = tk.Button(self.ventana, text=" Cargar Imagen", command=self.cargar_imagen)
-        btn_cargar.pack()
-
-        # Lista de filtros disponibles
-        self.opciones_filtro = ["grises", "invertir", "brillo", "contraste"]
-        self.filtro_seleccionado = tk.StringVar(value=self.opciones_filtro[0])
-
-        # Dropdown de selección de filtro
-        menu_filtros = tk.OptionMenu(self.ventana, self.filtro_seleccionado, *self.opciones_filtro)
-        menu_filtros.pack(pady=5)
-
-        # Botón para aplicar filtro seleccionado
-        btn_aplicar_filtro = tk.Button(self.ventana, text="Aplicar Filtro", command=self.aplicar_filtro_desde_interfaz)
-        btn_aplicar_filtro.pack()
 
         self.ventana.mainloop()
 
@@ -55,10 +59,13 @@ class InterfazEditor:
             messagebox.showinfo("Aviso", "No se seleccionó ninguna imagen.")
 
     def mostrar_imagen(self):
-
-        imagen = self.editor.imagen_editada.resize((500, 500))  # mejor tamaño
+        
+        if self.editor.imagen_editada is None:
+            print(" No hay imagen cargada para mostrar.")
+            return
+        imagen = self.editor.imagen_editada.resize((500, 500))# mejor tamaño
         self.img_tk: PhotoImage = ImageTk.PhotoImage(imagen)
-        self.canvas.delete("all")  # limpia canvas
+        self.canvas.delete("all")# limpia canvas
         self.canvas.create_image(0, 0, anchor="nw", image=self.img_tk)
 
 

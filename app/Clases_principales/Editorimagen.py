@@ -21,20 +21,23 @@ class EditorImagen:
         return ruta.lower().endswith((".jpg", ".jpeg"))
 
     def cargar_imagen(self, ruta: str) -> bool:
-
         if not self.validar_formato(ruta):
             print(" Solo se pueden cargar imágenes con extensión .jpg o .jpeg ")
             return False
 
-
         if os.path.exists(ruta):
             imagen = Image.open(ruta)
-            self.imagen_original: Image | None = imagen
-            self.imagen_editada: Image | None = imagen.copy()
-            self.historial: HistorialCambios = HistorialCambios()
-            self.historial.guardar_estado(self.imagen_editada)
-            print( f" la imagen fue cargada correctamente " )
-            return True
+
+            if imagen is not None:
+                self.imagen_original = imagen
+                self.imagen_editada = imagen.copy()
+                self.historial = HistorialCambios()
+                self.historial.guardar_estado(self.imagen_editada)
+                print(" La imagen fue cargada correctamente ")
+                return True
+            else:
+                print(" La imagen no pudo ser cargada correctamente ")
+                return False
         else:
             print(f" La imagen no fue cargada, no fue encontrada en la ruta: {ruta}. ")
             return False
