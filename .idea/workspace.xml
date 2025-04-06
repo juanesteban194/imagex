@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="85cd8b48-cbbc-4041-a580-aab62ccf1723" name="Changes" comment="correción clase filtro">
+    <list default="true" id="85cd8b48-cbbc-4041-a580-aab62ccf1723" name="Changes" comment="correcion del metodo cargar imagen">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/interfaz_grafica/interfaz.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/interfaz_grafica/interfaz.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,6 +60,8 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Python.Editorimagen.executor": "Run",
+    "Python.interfaz.executor": "Run",
     "Python.main.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
@@ -71,11 +73,11 @@
       <recent name="$PROJECT_DIR$/Fotos_Prueba" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Fotos_Prueba" />
       <recent name="$PROJECT_DIR$/Fotos_prueba " />
       <recent name="$PROJECT_DIR$/app/Claseses_principales" />
       <recent name="$PROJECT_DIR$/app/interfaz_grafica" />
       <recent name="$PROJECT_DIR$/app/api" />
-      <recent name="$PROJECT_DIR$/app/services" />
     </key>
   </component>
   <component name="SharedIndexes">
@@ -214,7 +216,31 @@
       <option name="project" value="LOCAL" />
       <updated>1743951248223</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="correción clase interfaz">
+      <option name="closed" value="true" />
+      <created>1743952427908</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1743952427908</updated>
+    </task>
+    <task id="LOCAL-00017" summary="implementar mensaje si la imagen no carga en interfaz">
+      <option name="closed" value="true" />
+      <created>1743954273744</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1743954273744</updated>
+    </task>
+    <task id="LOCAL-00018" summary="correcion del metodo cargar imagen">
+      <option name="closed" value="true" />
+      <created>1743960483164</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1743960483164</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -280,6 +306,9 @@
     <MESSAGE value="corrección de editor imagen y filtro" />
     <MESSAGE value="implementación de aplicar_filtro en EditarImagen" />
     <MESSAGE value="correción clase filtro" />
-    <option name="LAST_COMMIT_MESSAGE" value="correción clase filtro" />
+    <MESSAGE value="correción clase interfaz" />
+    <MESSAGE value="implementar mensaje si la imagen no carga en interfaz" />
+    <MESSAGE value="correcion del metodo cargar imagen" />
+    <option name="LAST_COMMIT_MESSAGE" value="correcion del metodo cargar imagen" />
   </component>
 </project>

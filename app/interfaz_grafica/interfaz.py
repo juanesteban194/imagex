@@ -66,10 +66,17 @@ class InterfazEditor:
 
         try:
             imagen = Image.open(ruta)
-            imagen = imagen.resize((500, 500))
+
+            self.editor.imagen_original = imagen
+            self.editor.imagen_editada = imagen.copy()
+            self.editor.actualizar_historial()
+
+            # mostrar en el canvas
+            imagen = self.editor.imagen_editada.resize((500, 500))
             self.img_tk = ImageTk.PhotoImage(imagen)
             self.canvas.delete("all")
             self.canvas.create_image(0, 0, anchor="nw", image=self.img_tk)
+
         except Exception as e:
             messagebox.showerror("Error", f"No se pudo cargar la imagen:\n{e}")
 
