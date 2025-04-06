@@ -4,9 +4,6 @@ from app.services.historial_cambios import HistorialCambios
 from PIL import ImageEnhance
 
 
-
-
-
 class EditorImagen:
 
     def __init__(self):
