@@ -1,0 +1,354 @@
+Index: app/Clase_recorte.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/Clase_recorte.py b/app/Clase_recorte.py
+--- a/app/Clase_recorte.py	(revision b8935e86e32bbfb05284de6dca54c808bb85904e)
++++ b/app/Clase_recorte.py	(date 1743898717004)
+@@ -1,0 +1,30 @@
++from PIL import Image
++
++class Recorte:
++    @staticmethod
++    def recortar(imagen: Image, coordenadas: tuple[int, int, int, int]) -> Image:
++        """
++        Recorta una imagen usando coordenadas (x1, y1, x2, y2).
++        Retorna una nueva imagen recortada.
++        """
++        # Verificar si hay imagen
++        if imagen is None:
++            print("⚠ No hay imagen para recortar.")
++            return None
++
++        # Extraer cada coordenada de forma clara
++        x1 = coordenadas[0]
++        y1 = coordenadas[1]
++        x2 = coordenadas[2]
++        y2 = coordenadas[3]
++
++        # Validar que las coordenadas formen un rectángulo válido
++        if x1 >= x2 or y1 >= y2:
++            print("❌ Las coordenadas de recorte no son válidas.")
++            return imagen  # Devuelve la imagen sin cambios
++
++        # Recortar la imagen usando crop()
++        imagen_recortada = imagen.crop((x1, y1, x2, y2))
++
++        print(f"✂ Imagen recortada desde ({x1}, {y1}) hasta ({x2}, {y2})")
++        return imagen_recortada
+\ No newline at end of file
+Index: .venv/bin/activate_this.py
+===================================================================
+diff --git a/.venv/bin/activate_this.py b/.venv/bin/activate_this.py
+deleted file mode 100644
+--- a/.venv/bin/activate_this.py	(revision b8935e86e32bbfb05284de6dca54c808bb85904e)
++++ /dev/null	(revision b8935e86e32bbfb05284de6dca54c808bb85904e)
+@@ -1,59 +0,0 @@
+-# Copyright (c) 2020-202x The virtualenv developers
+-#
+-# Permission is hereby granted, free of charge, to any person obtaining
+-# a copy of this software and associated documentation files (the
+-# "Software"), to deal in the Software without restriction, including
+-# without limitation the rights to use, copy, modify, merge, publish,
+-# distribute, sublicense, and/or sell copies of the Software, and to
+-# permit persons to whom the Software is furnished to do so, subject to
+-# the following conditions:
+-#
+-# The above copyright notice and this permission notice shall be
+-# included in all copies or substantial portions of the Software.
+-#
+-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+-# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+-# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+-# NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+-# LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+-# OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+-# WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+-
+-"""
+-Activate virtualenv for current interpreter:
+-
+-import runpy
+-runpy.run_path(this_file)
+-
+-This can be used when you must use an existing Python interpreter, not the virtualenv bin/python.
+-"""  # noqa: D415
+-
+-from __future__ import annotations
+-
+-import os
+-import site
+-import sys
+-
+-try:
+-    abs_file = os.path.abspath(__file__)
+-except NameError as exc:
+-    msg = "You must use import runpy; runpy.run_path(this_file)"
+-    raise AssertionError(msg) from exc
+-
+-bin_dir = os.path.dirname(abs_file)
+-base = bin_dir[: -len("bin") - 1]  # strip away the bin part from the __file__, plus the path separator
+-
+-# prepend bin to PATH (this file is inside the bin directory)
+-os.environ["PATH"] = os.pathsep.join([bin_dir, *os.environ.get("PATH", "").split(os.pathsep)])
+-os.environ["VIRTUAL_ENV"] = base  # virtual env is right above bin directory
+-os.environ["VIRTUAL_ENV_PROMPT"] = "imagex" or os.path.basename(base)  # noqa: SIM222
+-
+-# add the virtual environments libraries to the host python import mechanism
+-prev_length = len(sys.path)
+-for lib in "../lib/python3.12/site-packages".split(os.pathsep):
+-    path = os.path.realpath(os.path.join(bin_dir, lib))
+-    site.addsitedir(path)
+-sys.path[:] = sys.path[prev_length:] + sys.path[0:prev_length]
+-
+-sys.real_prefix = sys.prefix
+-sys.prefix = base
+Index: .venv/lib/python3.12/site-packages/_virtualenv.py
+===================================================================
+diff --git a/.venv/lib/python3.12/site-packages/_virtualenv.py b/.venv/lib/python3.12/site-packages/_virtualenv.py
+deleted file mode 100644
+--- a/.venv/lib/python3.12/site-packages/_virtualenv.py	(revision b8935e86e32bbfb05284de6dca54c808bb85904e)
++++ /dev/null	(revision b8935e86e32bbfb05284de6dca54c808bb85904e)
+@@ -1,101 +0,0 @@
+-"""Patches that are applied at runtime to the virtual environment."""
+-
+-import os
+-import sys
+-
+-VIRTUALENV_PATCH_FILE = os.path.join(__file__)
+-
+-
+-def patch_dist(dist):
+-    """
+-    Distutils allows user to configure some arguments via a configuration file:
+-    https://docs.python.org/3.11/install/index.html#distutils-configuration-files.
+-
+-    Some of this arguments though don't make sense in context of the virtual environment files, let's fix them up.
+-    """  # noqa: D205
+-    # we cannot allow some install config as that would get packages installed outside of the virtual environment
+-    old_parse_config_files = dist.Distribution.parse_config_files
+-
+-    def parse_config_files(self, *args, **kwargs):
+-        result = old_parse_config_files(self, *args, **kwargs)
+-        install = self.get_option_dict("install")
+-
+-        if "prefix" in install:  # the prefix governs where to install the libraries
+-            install["prefix"] = VIRTUALENV_PATCH_FILE, os.path.abspath(sys.prefix)
+-        for base in ("purelib", "platlib", "headers", "scripts", "data"):
+-            key = f"install_{base}"
+-            if key in install:  # do not allow global configs to hijack venv paths
+-                install.pop(key, None)
+-        return result
+-
+-    dist.Distribution.parse_config_files = parse_config_files
+-
+-
+-# Import hook that patches some modules to ignore configuration values that break package installation in case
+-# of virtual environments.
+-_DISTUTILS_PATCH = "distutils.dist", "setuptools.dist"
+-# https://docs.python.org/3/library/importlib.html#setting-up-an-importer
+-
+-
+-class _Finder:
+-    """A meta path finder that allows patching the imported distutils modules."""
+-
+-    fullname = None
+-
+-    # lock[0] is threading.Lock(), but initialized lazily to avoid importing threading very early at startup,
+-    # because there are gevent-based applications that need to be first to import threading by themselves.
+-    # See https://github.com/pypa/virtualenv/issues/1895 for details.
+-    lock = []  # noqa: RUF012
+-
+-    def find_spec(self, fullname, path, target=None):  # noqa: ARG002
+-        if fullname in _DISTUTILS_PATCH and self.fullname is None:
+-            # initialize lock[0] lazily
+-            if len(self.lock) == 0:
+-                import threading
+-
+-                lock = threading.Lock()
+-                # there is possibility that two threads T1 and T2 are simultaneously running into find_spec,
+-                # observing .lock as empty, and further going into hereby initialization. However due to the GIL,
+-                # list.append() operation is atomic and this way only one of the threads will "win" to put the lock
+-                # - that every thread will use - into .lock[0].
+-                # https://docs.python.org/3/faq/library.html#what-kinds-of-global-value-mutation-are-thread-safe
+-                self.lock.append(lock)
+-
+-            from functools import partial
+-            from importlib.util import find_spec
+-
+-            with self.lock[0]:
+-                self.fullname = fullname
+-                try:
+-                    spec = find_spec(fullname, path)
+-                    if spec is not None:
+-                        # https://www.python.org/dev/peps/pep-0451/#how-loading-will-work
+-                        is_new_api = hasattr(spec.loader, "exec_module")
+-                        func_name = "exec_module" if is_new_api else "load_module"
+-                        old = getattr(spec.loader, func_name)
+-                        func = self.exec_module if is_new_api else self.load_module
+-                        if old is not func:
+-                            try:  # noqa: SIM105
+-                                setattr(spec.loader, func_name, partial(func, old))
+-                            except AttributeError:
+-                                pass  # C-Extension loaders are r/o such as zipimporter with <3.7
+-                        return spec
+-                finally:
+-                    self.fullname = None
+-        return None
+-
+-    @staticmethod
+-    def exec_module(old, module):
+-        old(module)
+-        if module.__name__ in _DISTUTILS_PATCH:
+-            patch_dist(module)
+-
+-    @staticmethod
+-    def load_module(old, name):
+-        module = old(name)
+-        if module.__name__ in _DISTUTILS_PATCH:
+-            patch_dist(module)
+-        return module
+-
+-
+-sys.meta_path.insert(0, _Finder())
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"Black\">\r\n    <option name=\"sdkName\" value=\"uv (imagex)\" />\r\n  </component>\r\n  <component name=\"ProjectRootManager\" version=\"2\" project-jdk-name=\"uv (imagex)\" project-jdk-type=\"Python SDK\" />\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision b8935e86e32bbfb05284de6dca54c808bb85904e)
++++ b/.idea/misc.xml	(date 1743823742318)
+@@ -3,5 +3,5 @@
+   <component name="Black">
+     <option name="sdkName" value="uv (imagex)" />
+   </component>
+-  <component name="ProjectRootManager" version="2" project-jdk-name="uv (imagex)" project-jdk-type="Python SDK" />
++  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.13 (imagex)" project-jdk-type="Python SDK" />
+ </project>
+\ No newline at end of file
+Index: .venv/.gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>.venv\r\n.idea\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.venv/.gitignore b/.venv/.gitignore
+--- a/.venv/.gitignore	(revision b8935e86e32bbfb05284de6dca54c808bb85904e)
++++ b/.venv/.gitignore	(date 1743823742322)
+@@ -1,2 +1,1 @@
+-.venv
+-.idea
++*
+\ No newline at end of file
+Index: .venv/pyvenv.cfg
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>home = /Library/Frameworks/Python.framework/Versions/3.12/bin\r\nimplementation = CPython\r\nuv = 0.6.1\r\nversion_info = 3.12.4\r\ninclude-system-site-packages = false\r\nprompt = imagex\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.venv/pyvenv.cfg b/.venv/pyvenv.cfg
+--- a/.venv/pyvenv.cfg	(revision b8935e86e32bbfb05284de6dca54c808bb85904e)
++++ b/.venv/pyvenv.cfg	(date 1743823742326)
+@@ -1,6 +1,6 @@
+-home = /Library/Frameworks/Python.framework/Versions/3.12/bin
++home = C:\Users\USER\AppData\Local\Programs\Python\Python313
+ implementation = CPython
+-uv = 0.6.1
+-version_info = 3.12.4
++uv = 0.6.10
++version_info = 3.13.2
+ include-system-site-packages = false
+ prompt = imagex
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"85cd8b48-cbbc-4041-a580-aab62ccf1723\" name=\"Changes\" comment=\"otra 2\">\r\n      <change afterPath=\"$PROJECT_DIR$/app/Clase_dibujador.py\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/app/Clase_filtro.py\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/app/Clase_recorte.py\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/app/interfaz.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/app/interfaz.py\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Python Script\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\r\n      <map>\r\n        <entry key=\"$PROJECT_DIR$\" value=\"otra\" />\r\n      </map>\r\n    </option>\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"GitHubPullRequestSearchHistory\">{\r\n  &quot;lastFilter&quot;: {\r\n    &quot;state&quot;: &quot;OPEN&quot;,\r\n    &quot;assignee&quot;: &quot;juanesteban194&quot;\r\n  }\r\n}</component>\r\n  <component name=\"GithubPullRequestsUISettings\">{\r\n  &quot;selectedUrlAndAccountId&quot;: {\r\n    &quot;url&quot;: &quot;https://github.com/juanesteban194/imagex.git&quot;,\r\n    &quot;accountId&quot;: &quot;dd9c6e68-9716-4aed-89aa-239ca27bcc11&quot;\r\n  }\r\n}</component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 8\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"2up7aeWR4URSS0Dx9HLULqWjBDB\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">{\r\n  &quot;keyToString&quot;: {\r\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\r\n    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,\r\n    &quot;git-widget-placeholder&quot;: &quot;main&quot;\r\n  }\r\n}</component>\r\n  <component name=\"SharedIndexes\">\r\n    <attachedChunks>\r\n      <set>\r\n        <option value=\"bundled-python-sdk-a5bc9544c897-aa17d162503b-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-243.23654.177\" />\r\n      </set>\r\n    </attachedChunks>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"85cd8b48-cbbc-4041-a580-aab62ccf1723\" name=\"Changes\" comment=\"\" />\r\n      <created>1742933726352</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1742933726352</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"initial commit\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1742934109818</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1742934109818</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"initial commit\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1742935107537</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1742935107537</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"agregar modulo interfaz\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1743180327596</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1743180327596</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00004\" summary=\"print\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1743180432122</created>\r\n      <option name=\"number\" value=\"00004\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1743180432122</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00005\" summary=\"otra\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1743180646502</created>\r\n      <option name=\"number\" value=\"00005\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1743180646502</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00006\" summary=\"otra 2\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1743180677650</created>\r\n      <option name=\"number\" value=\"00006\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1743180677650</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"7\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State>\r\n              <option name=\"FILTERS\">\r\n                <map>\r\n                  <entry key=\"branch\">\r\n                    <value>\r\n                      <list>\r\n                        <option value=\"main\" />\r\n                      </list>\r\n                    </value>\r\n                  </entry>\r\n                </map>\r\n              </option>\r\n            </State>\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"initial commit\" />\r\n    <MESSAGE value=\"agregar modulo interfaz\" />\r\n    <MESSAGE value=\"print\" />\r\n    <MESSAGE value=\"otra\" />\r\n    <MESSAGE value=\"otra 2\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"otra 2\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision b8935e86e32bbfb05284de6dca54c808bb85904e)
++++ b/.idea/workspace.xml	(date 1743890806044)
+@@ -4,11 +4,26 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="85cd8b48-cbbc-4041-a580-aab62ccf1723" name="Changes" comment="otra 2">
+-      <change afterPath="$PROJECT_DIR$/app/Clase_dibujador.py" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/app/Clase_filtro.py" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/app/Clase_recorte.py" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/app/interfaz.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/interfaz.py" afterDir="false" />
++    <list default="true" id="85cd8b48-cbbc-4041-a580-aab62ccf1723" name="Changes" comment="Implementé la clase recorte">
++      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.venv/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/.gitignore" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.venv/bin/activate" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.venv/bin/activate.bat" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.venv/bin/activate.csh" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.venv/bin/activate.fish" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.venv/bin/activate.nu" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.venv/bin/activate.ps1" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.venv/bin/activate_this.py" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.venv/bin/deactivate.bat" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.venv/bin/pydoc.bat" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.venv/bin/python" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.venv/bin/python3" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.venv/bin/python3.12" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.venv/lib/python3.12/site-packages/_virtualenv.pth" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.venv/lib/python3.12/site-packages/_virtualenv.py" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.venv/pyvenv.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/pyvenv.cfg" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/app/Clase_recorte.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/Clase_recorte.py" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -122,10 +137,33 @@
+       <option name="project" value="LOCAL" />
+       <updated>1743180677650</updated>
+     </task>
+-    <option name="localTasksCounter" value="7" />
++    <task id="LOCAL-00007" summary="Implementé la clase recorte">
++      <option name="closed" value="true" />
++      <created>1743731920104</created>
++      <option name="number" value="00007" />
++      <option name="presentableId" value="LOCAL-00007" />
++      <option name="project" value="LOCAL" />
++      <updated>1743731920104</updated>
++    </task>
++    <option name="localTasksCounter" value="8" />
+     <servers />
+   </component>
+   <component name="Vcs.Log.Tabs.Properties">
++    <option name="RECENT_FILTERS">
++      <map>
++        <entry key="Branch">
++          <value>
++            <list>
++              <RecentGroup>
++                <option name="FILTER_VALUES">
++                  <option value="Clase_recorte" />
++                </option>
++              </RecentGroup>
++            </list>
++          </value>
++        </entry>
++      </map>
++    </option>
+     <option name="TAB_STATES">
+       <map>
+         <entry key="MAIN">
+@@ -154,6 +192,7 @@
+     <MESSAGE value="print" />
+     <MESSAGE value="otra" />
+     <MESSAGE value="otra 2" />
+-    <option name="LAST_COMMIT_MESSAGE" value="otra 2" />
++    <MESSAGE value="Implementé la clase recorte" />
++    <option name="LAST_COMMIT_MESSAGE" value="Implementé la clase recorte" />
+   </component>
+ </project>
+\ No newline at end of file

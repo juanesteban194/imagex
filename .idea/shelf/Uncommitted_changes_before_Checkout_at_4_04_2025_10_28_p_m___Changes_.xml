@@ -1,0 +1,40 @@
+<changelist name="Uncommitted_changes_before_Checkout_at_4_04_2025_10_28_p_ m__[Changes]" date="1743823742437" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_4_04_2025_10_28_p_ m__[Changes]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Checkout at 4/04/2025 10:28 p. m. [Changes]" />
+  <binary>
+    <option name="BEFORE_PATH" value=".venv/bin/pydoc.bat" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value=".venv/bin/python3" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value=".venv/bin/activate.bat" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value=".venv/bin/activate.csh" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value=".venv/bin/deactivate.bat" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value=".venv/bin/python3.12" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value=".venv/bin/python" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value=".venv/bin/activate.nu" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value=".venv/lib/python3.12/site-packages/_virtualenv.pth" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value=".venv/bin/activate.ps1" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value=".venv/bin/activate" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value=".venv/bin/activate.fish" />
+  </binary>
+</changelist>
