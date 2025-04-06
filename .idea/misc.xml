@@ -3,5 +3,5 @@
   <component name="Black">
     <option name="sdkName" value="uv (imagex)" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="uv (imagex)" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="imagex" project-jdk-type="Python SDK" />
 </project>
