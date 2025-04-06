@@ -12,9 +12,6 @@ class InterfazEditor:
         self.ventana.title("Editor de Imágenes")
         self.ventana.geometry("700x500")
 
-        # Botón para cargar imagen
-        btn_cargar = tk.Button(self.ventana, text = " Cargar Imagen", command = self.cargar_imagen)
-        btn_cargar.pack()
 
         # Área para mostrar imagen
         self.label_imagen = tk.Label(self.ventana, text = " Imagen no cargada ")
@@ -35,7 +32,23 @@ class InterfazEditor:
         self.canvas.bind("<B1-Motion>", self.dibujar_rectangulo)
         self.canvas.bind("<ButtonRelease-1>", self.aplicar_recorte)
 
+        # Botón para cargar imagen
+        btn_cargar = tk.Button(self.ventana, text=" Cargar Imagen", command=self.cargar_imagen)
+        btn_cargar.pack()
+
         self.ventana.mainloop()
+
+        # Lista de filtros disponibles
+        self.opciones_filtro = ["grises", "invertir", "brillo", "contraste"]
+        self.filtro_seleccionado = tk.StringVar(value=self.opciones_filtro[0])
+
+        # Dropdown de selección de filtro
+        menu_filtros = tk.OptionMenu(self.ventana, self.filtro_seleccionado, *self.opciones_filtro)
+        menu_filtros.pack(pady=5)
+
+        # Botón para aplicar filtro seleccionado
+        btn_aplicar_filtro = tk.Button(self.ventana, text="🎨 Aplicar Filtro", command=self.aplicar_filtro_desde_interfaz)
+        btn_aplicar_filtro.pack()
 
     def cargar_imagen(self):
         ruta = filedialog.askopenfilename(filetypes = [("Imágenes JPG", "*.jpg *.jpeg " )])
@@ -75,6 +88,11 @@ class InterfazEditor:
         y1, y2 = sorted([y1, y2])
 
         self.editor.recortar_imagen((x1, y1, x2, y2))
+        self.mostrar_imagen()
+
+    def aplicar_filtro_desde_interfaz(self):
+        tipo = self.filtro_seleccionado.get()
+        self.editor.aplicar_filtro(tipo)
         self.mostrar_imagen()
 
 
