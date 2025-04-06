@@ -7,6 +7,7 @@ from app.Clases_principales.Recorte import Recorte
 
 
 
+
 class EditorImagen:
 
     def __init__(self):
@@ -164,6 +165,13 @@ class EditorImagen:
         self.historial.guardar_estado(imagen_recortada)
 
         print(" Imagen recortada correctamente ")
+
+
+
+
+
+
+
 
 
 
