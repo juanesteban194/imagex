@@ -1,6 +1,7 @@
 from PIL import Image
 
 class Recorte:
+
     @staticmethod
     def recortar(imagen: Image, coordenadas: tuple[int, int, int, int]) -> Image:
 
