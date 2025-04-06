@@ -1,14 +1,23 @@
 from PIL import Image
 
 class Recorte:
-    def __init__(self, ruta_imagen):
-        self.imagen = Image.open(ruta_imagen)
+    @staticmethod
+    def recortar(imagen: Image, coordenadas: tuple[int, int, int, int]) -> Image:
 
-    def aplicar_recorte(self, x1, y1, x2, y2):
-        imagen_recortada = self.imagen.crop((x1, y1, x2, y2))
-        imagen_recortada.show()
-        imagen_recortada.save("imagen_recortada.jpg")
+        if imagen is None:
+            print("⚠ No hay imagen para recortar.")
+            return None
 
-recorte = Recorte("imagen_original.jpg")
-recorte.aplicar_recorte(50, 50, 300, 300)  # (x1, y1, x2, y2)
+        x1 = coordenadas[0]
+        y1 = coordenadas[1]
+        x2 = coordenadas[2]
+        y2 = coordenadas[3]
 
+        if x1 >= x2 or y1 >= y2:
+            print("❌ Las coordenadas de recorte no son válidas.")
+            return imagen
+
+        imagen_recortada = imagen.crop((x1, y1, x2, y2))
+
+        print(f"✂ Imagen recortada desde ({x1}, {y1}) hasta ({x2}, {y2})")
+        return imagen_recortada
