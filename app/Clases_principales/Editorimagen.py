@@ -147,8 +147,7 @@ class EditorImagen:
         lapiz = Dibujador(color_lapiz="black", grosor_lapiz=3)
 
         # Dibujar usando los atributos y parámetros dados
-        imagen_dibujada = lapiz.dibujar(imagen= self.imagen_editada, coordenadas=coordenadas,
-                          color=lapiz.color_lapiz, grosor=lapiz.grosor_lapiz)
+        imagen_dibujada = lapiz.dibujar(imagen= self.imagen_editada, coordenadas=coordenadas, color=lapiz.color_lapiz, grosor=lapiz.grosor_lapiz)
 
         # Guardar nueva imagen editada y registrar en historial
         self.imagen_editada = imagen_dibujada

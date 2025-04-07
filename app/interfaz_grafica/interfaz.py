@@ -13,12 +13,12 @@ class InterfazEditor:
         self.ventana.title("Editor de Imágenes")
         self.ventana.geometry("700x600")
 
-        # 🟩 Frame superior para botones
+        #Frame superior para botones
         frame_botones = tk.Frame(self.ventana)
         frame_botones.pack(pady=10)
 
         # Botón cargar imagen
-        btn_cargar = tk.Button(frame_botones, text="📂 Cargar Imagen", command=self.cargar_imagen)
+        btn_cargar = tk.Button(frame_botones, text=" 💻 Cargar Imagen", command=self.cargar_imagen)
         btn_cargar.pack(side="left", padx=5)
 
         # Menú desplegable de filtros
@@ -28,8 +28,7 @@ class InterfazEditor:
         menu_filtros.pack(side="left", padx=5)
 
         # Botón aplicar filtro
-        btn_aplicar_filtro = tk.Button(frame_botones, text="🎨 Aplicar Filtro",
-                                       command=self.aplicar_filtro_desde_interfaz)
+        btn_aplicar_filtro = tk.Button(frame_botones, text="🎨 Aplicar Filtro", command=self.aplicar_filtro_desde_interfaz)
         btn_aplicar_filtro.pack(side="left", padx=5)
 
         # Frame para el canvas (zona inferior)
@@ -44,6 +43,7 @@ class InterfazEditor:
         self.inicio_x = 0
         self.inicio_y = 0
 
+        #evento del mouse
         self.canvas.bind("<ButtonPress-1>", self.inicio_recorte)
         self.canvas.bind("<B1-Motion>", self.dibujar_rectangulo)
         self.canvas.bind("<ButtonRelease-1>", self.aplicar_recorte)
@@ -57,8 +57,7 @@ class InterfazEditor:
         self.ventana.mainloop()
 
     def cargar_imagen(self):
-        ruta = filedialog.askopenfilename(
-            title="Selecciona una imagen", filetypes=[("Imágenes JPG", "*.jpg *.jpeg")] )
+        ruta = filedialog.askopenfilename(title="Selecciona una imagen", filetypes=[("Imágenes JPG", "*.jpg *.jpeg")] )
 
         if not ruta:
             messagebox.showinfo("Aviso", "No seleccionaste una imagen.")
@@ -66,7 +65,6 @@ class InterfazEditor:
 
         try:
             imagen = Image.open(ruta)
-
             self.editor.imagen_original = imagen
             self.editor.imagen_editada = imagen.copy()
             self.editor.actualizar_historial()
@@ -77,8 +75,8 @@ class InterfazEditor:
             self.canvas.delete("all")
             self.canvas.create_image(0, 0, anchor="nw", image=self.img_tk)
 
-        except Exception as e:
-            messagebox.showerror("Error", f"No se pudo cargar la imagen:\n{e}")
+        except Exception as error:
+            messagebox.showerror("Error", f"No se pudo cargar la imagen:\n{error}")
 
 
     def mostrar_imagen(self):
@@ -99,8 +97,10 @@ class InterfazEditor:
         self.canvas.coords(self.rect_id, self.inicio_x, self.inicio_y, evento_mouse.x, evento_mouse.y)
 
     def aplicar_recorte(self, evento_mouse):
-        x1, y1 = self.inicio_x, self.inicio_y
-        x2, y2 = evento_mouse.x, evento_mouse.y
+        x1 = self.inicio_x
+        y1 = self.inicio_y
+        x2 = evento_mouse.x
+        y2 = evento_mouse.y
         x1, x2 = sorted([x1, x2])
         y1, y2 = sorted([y1, y2])
         self.editor.recortar_imagen((x1, y1, x2, y2))
