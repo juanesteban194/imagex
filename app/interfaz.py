@@ -2,8 +2,8 @@ import tkinter as tk
 from tkinter import filedialog, messagebox
 from PIL import ImageTk, Image
 from app.Clases_principales.Editorimagen import EditorImagen
-from app.Clases_principales.Dibujador import Dibujador
-from app.Clases_principales.Recorte import Recorte
+from app.Clases_principales.dibujador import Dibujador
+from app.Clases_principales.recorte import Recorte
 import os
 
 
