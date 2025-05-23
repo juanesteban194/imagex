@@ -16,6 +16,7 @@ class EditorImagen:
         self.imagen_editada: Image | None = None
         self.historial: HistorialCambios = HistorialCambios()
 
+
     @staticmethod
     def validar_formato(ruta: str) -> bool:
         return ruta.lower().endswith((".jpg", ".jpeg"))
