@@ -16,6 +16,7 @@ class EditorImagen:
         self.imagen_editada: Image | None = None
         self.historial: HistorialCambios = HistorialCambios()
 
+
     @staticmethod
     def validar_formato(ruta: str) -> bool:
         return ruta.lower().endswith((".jpg", ".jpeg"))
@@ -147,8 +148,7 @@ class EditorImagen:
         lapiz = Dibujador(color_lapiz="black", grosor_lapiz=3)
 
         # Dibujar usando los atributos y parámetros dados
-        imagen_dibujada = lapiz.dibujar(imagen= self.imagen_editada, coordenadas=coordenadas,
-                          color=lapiz.color_lapiz, grosor=lapiz.grosor_lapiz)
+        imagen_dibujada = lapiz.dibujar(imagen= self.imagen_editada, coordenadas=coordenadas, color=lapiz.color_lapiz, grosor=lapiz.grosor_lapiz)
 
         # Guardar nueva imagen editada y registrar en historial
         self.imagen_editada = imagen_dibujada
@@ -180,25 +180,3 @@ class EditorImagen:
         imagen_filtrada = filtro.aplicar_filtro(self.imagen_editada)
         self.imagen_editada = imagen_filtrada
         self.actualizar_historial()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
