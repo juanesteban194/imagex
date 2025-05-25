@@ -9,14 +9,16 @@ class ApiManager:
 
         self.api_key = api_key
         self.url_colorizer = "https://api.deepai.org/api/colorizer"
-        self.url_style = "https://api.deepai.org/api/fast-style-transfer"
-        self.url_mejorar_calidad = "https://api.deepai.org/api/toonify"
+        self.url_mejorar_calidad = "https://api.deepai.org/api/waifu2x"
+        self.url_toonify = "https://api.deepai.org/api/toonify"
+        self.url_fast_style_transfer = "https://api.deepai.org/api/fast-style-transfer"
 
     def _convertir_a_buffer(self, image: Image.Image) -> BytesIO:
         buffer = BytesIO()
-        image.save(buffer, format="JPEG")
+        image.convert("RGB").save(buffer, format="JPEG")
         buffer.seek(0)
         return buffer
+
 
     def restaurar_color(self, imagen: Image.Image) -> Image.Image:
         buffer = self._convertir_a_buffer(imagen)
@@ -25,18 +27,6 @@ class ApiManager:
             files={"image": buffer},
             headers={"api-key": self.api_key}
         )
-        response.raise_for_status()
-        url = response.json()["output_url"]
-        return Image.open(requests.get(url, stream=True).raw)
-
-    def aplicar_estilo(self, imagen: Image.Image, estilo_path: str) -> Image.Image:
-        buffer = self._convertir_a_buffer(imagen)
-        with open(estilo_path, "rb") as estilo_img:
-            response = requests.post(
-                self.url_style,
-                files={"content": buffer, "style": estilo_img},
-                headers={"api-key": self.api_key}
-            )
         response.raise_for_status()
         url = response.json()["output_url"]
         return Image.open(requests.get(url, stream=True).raw)

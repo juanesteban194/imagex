@@ -8,7 +8,6 @@ from app.api.api_manager import ApiManager
 import os
 
 class InterfazEditor:
-
     def __init__(self, api_manager: ApiManager, ruta_inicial: str = None):
         ctk.set_appearance_mode("dark")
         ctk.set_default_color_theme("blue")
@@ -42,18 +41,6 @@ class InterfazEditor:
 
         btn_aplicar_filtro = ctk.CTkButton(frame_botones, text="🎨 Aplicar Filtro", command=self.aplicar_filtro_desde_interfaz)
         btn_aplicar_filtro.pack(pady=5)
-
-        ctk.CTkLabel(frame_botones, text="🎭 Estilo API:").pack(pady=(10, 0))
-        self.estilos_api = {
-            "wave": "https://storage.googleapis.com/deepai-model-outputs/style-transfer/wave.jpg",
-            "udnie": "https://storage.googleapis.com/deepai-model-outputs/style-transfer/udnie.jpg"
-        }
-        self.estilo_seleccionado = ctk.StringVar(value="wave")
-        menu_estilos = ctk.CTkOptionMenu(frame_botones, variable=self.estilo_seleccionado, values=list(self.estilos_api.keys()))
-        menu_estilos.pack(pady=5)
-
-        btn_estilo_api = ctk.CTkButton(frame_botones, text="🧬 Aplicar Estilo (API)", command=self.aplicar_estilo_api)
-        btn_estilo_api.pack(pady=5)
 
         btn_mejorar_api = ctk.CTkButton(frame_botones, text="✨ Mejorar Calidad (API)", command=self.mejorar_calidad_api)
         btn_mejorar_api.pack(pady=5)
@@ -168,22 +155,6 @@ class InterfazEditor:
             print(f"[API] Error en restaurar_color: {e}")
             messagebox.showerror("Error API", f"Error al usar la API:\n{e}")
 
-    def aplicar_estilo_api(self):
-        print("[API] Aplicando estilo...")
-        if self.editor.imagen_editada is None:
-            messagebox.showwarning("Sin imagen", "Carga una imagen antes de aplicar estilo.")
-            return
-        try:
-            estilo_url = self.estilos_api[self.estilo_seleccionado.get()]
-            print(f"[API] URL estilo: {estilo_url}")
-            nueva = self.api_manager.aplicar_estilo(self.editor.imagen_editada, estilo_url)
-            self.editor.imagen_editada = nueva
-            self.editor.actualizar_historial()
-            self.mostrar_imagen()
-        except Exception as e:
-            print(f"[API] Error en aplicar_estilo: {e}")
-            messagebox.showerror("Error API", f"Error al aplicar estilo:\n{e}")
-
     def mejorar_calidad_api(self):
         print("[API] Mejorando calidad...")
         if self.editor.imagen_editada is None:
@@ -215,7 +186,6 @@ class InterfazEditor:
     def cambiar_grosor_lapiz(self, valor):
         self.dibujador.cambiar_grosor(int(float(valor)))
 
-
     def activar_recorte(self):
         self.dibujador.desactivar_modo_dibujo()
         self.modo_recorte_activo = True
@@ -232,7 +202,6 @@ class InterfazEditor:
             self.mostrar_imagen()
         else:
             messagebox.showinfo("Rehacer", "No hay cambios para rehacer.")
-
 
     def restaurar_original(self):
         self.imagen_editada_backup = self.editor.imagen_editada.copy()
@@ -253,7 +222,6 @@ class InterfazEditor:
             messagebox.showinfo("Imagen guardada", f"La imagen se guardó correctamente en:\n{ruta}")
         except Exception as e:
             messagebox.showerror("Error al guardar", f"No se pudo guardar la imagen:\n{e}")
-
 
     def evento_click(self, evento):
         if self.modo_recorte_activo:
