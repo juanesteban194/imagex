@@ -7,6 +7,7 @@ from app.Clases_principales.Recorte import Recorte
 from app.api.api_manager import ApiManager
 import os
 
+
 class InterfazEditor:
     def __init__(self, api_manager: ApiManager, ruta_inicial: str = None):
         ctk.set_appearance_mode("dark")
@@ -39,24 +40,14 @@ class InterfazEditor:
         menu_filtros = ctk.CTkOptionMenu(frame_botones, variable=self.filtro_seleccionado, values=self.opciones_filtro)
         menu_filtros.pack(pady=5)
 
-        btn_aplicar_filtro = ctk.CTkButton(frame_botones, text="🎨 Aplicar Filtro", command=self.aplicar_filtro_desde_interfaz)
-        btn_aplicar_filtro.pack(pady=5)
-
-        btn_mejorar_api = ctk.CTkButton(frame_botones, text="✨ Mejorar Calidad (API)", command=self.mejorar_calidad_api)
-        btn_mejorar_api.pack(pady=5)
-
-        btn_restaurar_api = ctk.CTkButton(frame_botones, text="🧪 Restaurar Color (API)", command=self.restaurar_color_api)
-        btn_restaurar_api.pack(pady=5)
-
-        btn_activar_dibujo = ctk.CTkButton(frame_botones, text="🖊️ Activar Dibujo", command=self.activar_modo_dibujo)
-        btn_activar_dibujo.pack(pady=5)
-
-        btn_desactivar_dibujo = ctk.CTkButton(frame_botones, text="❌ Desactivar Dibujo", command=self.desactivar_modo_dibujo)
-        btn_desactivar_dibujo.pack(pady=5)
+        ctk.CTkButton(frame_botones, text="🎨 Aplicar Filtro", command=self.aplicar_filtro_desde_interfaz).pack(pady=5)
+        ctk.CTkButton(frame_botones, text="✨ Mejorar Calidad (API)", command=self.mejorar_calidad_api).pack(pady=5)
+        ctk.CTkButton(frame_botones, text="🧪 Restaurar Color (API)", command=self.restaurar_color_api).pack(pady=5)
+        ctk.CTkButton(frame_botones, text="🖑 Activar Dibujo", command=self.activar_modo_dibujo).pack(pady=5)
+        ctk.CTkButton(frame_botones, text="❌ Desactivar Dibujo", command=self.desactivar_modo_dibujo).pack(pady=5)
 
         ctk.CTkLabel(frame_botones, text="🎨 Color del lápiz:").pack(pady=(10, 0))
-        self.selector_color = ctk.CTkOptionMenu(frame_botones, values=["black", "red", "green", "blue", "yellow", "white"],
-                                                command=self.cambiar_color_lapiz)
+        self.selector_color = ctk.CTkOptionMenu(frame_botones, values=["black", "red", "green", "blue", "yellow", "white"], command=self.cambiar_color_lapiz)
         self.selector_color.set("black")
         self.selector_color.pack(pady=5)
 
@@ -66,8 +57,7 @@ class InterfazEditor:
         self.slider_grosor.pack(pady=5)
 
         ctk.CTkLabel(frame_botones, text="").pack(expand=True, fill="both")
-        btn_recortar = ctk.CTkButton(frame_botones, text="✂️ Recortar", command=self.activar_recorte)
-        btn_recortar.pack(pady=5, side="bottom")
+        ctk.CTkButton(frame_botones, text="✂️ Recortar", command=self.activar_recorte).pack(pady=5, side="bottom")
 
         frame_canvas = ctk.CTkFrame(main_frame, width=700, height=600)
         frame_canvas.pack(side="left", padx=10, pady=10, fill="both", expand=True)
@@ -82,11 +72,8 @@ class InterfazEditor:
         self.btn_rehacer = ctk.CTkButton(frame_historial, text="⏩ Rehacer", command=self.rehacer_cambio)
         self.btn_rehacer.pack(side="left", padx=5)
 
-        btn_restaurar_original = ctk.CTkButton(frame_historial, text="🔄 Restaurar Imagen", command=self.restaurar_original)
-        btn_restaurar_original.pack(side="left", padx=5)
-
-        btn_guardar = ctk.CTkButton(frame_historial, text="💾 Guardar Imagen", command=self.guardar_imagen)
-        btn_guardar.pack(side="left", padx=5)
+        ctk.CTkButton(frame_historial, text="🔄 Restaurar Imagen", command=self.restaurar_original).pack(side="left", padx=5)
+        ctk.CTkButton(frame_historial, text="💾 Guardar Imagen", command=self.guardar_imagen).pack(side="left", padx=5)
 
         self.canvas = ctk.CTkCanvas(frame_canvas, bg="gray")
         self.canvas.pack(fill="both", expand=True)
@@ -100,8 +87,7 @@ class InterfazEditor:
         self.canvas.bind("<ButtonRelease-1>", self.evento_soltado)
 
         if ruta_inicial and os.path.exists(ruta_inicial):
-            cargada = self.editor.cargar_imagen(ruta_inicial)
-            if cargada:
+            if self.editor.cargar_imagen(ruta_inicial):
                 self.mostrar_imagen()
 
         self.ventana.mainloop()
@@ -109,7 +95,6 @@ class InterfazEditor:
     def cargar_imagen(self):
         ruta = filedialog.askopenfilename(title="Selecciona una imagen", filetypes=[("Imágenes JPG", "*.jpg *.jpeg")])
         if not ruta:
-            messagebox.showinfo("Aviso", "No seleccionaste una imagen.")
             return
         try:
             imagen = Image.open(ruta)
@@ -117,68 +102,33 @@ class InterfazEditor:
             self.editor.imagen_editada = imagen.copy()
             self.editor.actualizar_historial()
             self.imagen_editada_backup = self.editor.imagen_editada.copy()
-            print("[INFO] Imagen cargada correctamente")
             self.mostrar_imagen()
-        except Exception as error:
-            messagebox.showerror("Error", f"No se pudo cargar la imagen:\n{error}")
-
-    def aplicar_filtro_desde_interfaz(self):
-        tipo = self.filtro_seleccionado.get()
-        self.editor.aplicar_filtro(tipo)
-        self.imagen_editada_backup = self.editor.imagen_editada.copy()
-        self.mostrar_imagen()
+        except Exception as e:
+            messagebox.showerror("Error", f"No se pudo cargar la imagen:\n{e}")
 
     def mostrar_imagen(self):
-        if self.editor.imagen_editada is not None:
-            canvas_width = self.canvas.winfo_width()
-            canvas_height = self.canvas.winfo_height()
-            if canvas_width == 1 and canvas_height == 1:
-                canvas_width, canvas_height = 700, 600
-            imagen = self.editor.imagen_editada.resize((canvas_width, canvas_height))
+        if self.editor.imagen_editada:
+            w, h = self.canvas.winfo_width(), self.canvas.winfo_height()
+            if w == 1 and h == 1:
+                w, h = 700, 600
+            imagen = self.editor.imagen_editada.resize((w, h))
             self.img_tk = ImageTk.PhotoImage(imagen)
             self.canvas.delete("all")
             self.canvas.create_image(0, 0, anchor="nw", image=self.img_tk)
             self.actualizar_botones_historial()
 
-    def restaurar_color_api(self):
-        print("[API] Restaurando color...")
-        if self.editor.imagen_editada is None:
-            messagebox.showwarning("Sin imagen", "Carga una imagen antes de aplicar el API.")
-            return
-        try:
-            nueva = self.api_manager.restaurar_color(self.editor.imagen_editada)
-            print("[API] Restauración completada.")
-            self.editor.imagen_editada = nueva
-            self.editor.actualizar_historial()
-            self.mostrar_imagen()
-        except Exception as e:
-            print(f"[API] Error en restaurar_color: {e}")
-            messagebox.showerror("Error API", f"Error al usar la API:\n{e}")
-
-    def mejorar_calidad_api(self):
-        print("[API] Mejorando calidad...")
-        if self.editor.imagen_editada is None:
-            messagebox.showwarning("Sin imagen", "Carga una imagen antes de mejorar calidad.")
-            return
-        try:
-            nueva = self.api_manager.mejorar_calidad(self.editor.imagen_editada)
-            print("[API] Mejora completada.")
-            self.editor.imagen_editada = nueva
-            self.editor.actualizar_historial()
-            self.mostrar_imagen()
-        except Exception as e:
-            print(f"[API] Error en mejorar_calidad: {e}")
-            messagebox.showerror("Error API", f"Error al mejorar calidad:\n{e}")
+    def aplicar_filtro_desde_interfaz(self):
+        self.editor.aplicar_filtro(self.filtro_seleccionado.get())
+        self.imagen_editada_backup = self.editor.imagen_editada.copy()
+        self.mostrar_imagen()
 
     def activar_modo_dibujo(self):
         self.dibujador.activar_modo_dibujo()
         self.modo_recorte_activo = False
-        messagebox.showinfo("Modo Dibujo", "Modo dibujo activado. Usa el mouse para dibujar sobre la imagen.")
 
     def desactivar_modo_dibujo(self):
         self.dibujador.desactivar_modo_dibujo()
         self.coordenadas_dibujo.clear()
-        messagebox.showinfo("Modo Dibujo", "Modo dibujo desactivado.")
 
     def cambiar_color_lapiz(self, color):
         self.dibujador.cambiar_color(color)
@@ -189,7 +139,6 @@ class InterfazEditor:
     def activar_recorte(self):
         self.dibujador.desactivar_modo_dibujo()
         self.modo_recorte_activo = True
-        messagebox.showinfo("Modo Recorte", "Selecciona un área con el mouse para recortar.")
 
     def deshacer_cambio(self):
         self.editor.deshacer_cambio()
@@ -200,8 +149,6 @@ class InterfazEditor:
         if nueva:
             self.editor.imagen_editada = nueva
             self.mostrar_imagen()
-        else:
-            messagebox.showinfo("Rehacer", "No hay cambios para rehacer.")
 
     def restaurar_original(self):
         self.imagen_editada_backup = self.editor.imagen_editada.copy()
@@ -212,43 +159,58 @@ class InterfazEditor:
         if self.editor.imagen_editada is None:
             messagebox.showwarning("Sin imagen", "No hay imagen cargada para guardar.")
             return
-
         ruta = filedialog.asksaveasfilename(defaultextension=".jpg", filetypes=[("Archivos JPG", "*.jpg *.jpeg")])
         if not ruta:
             return
-
         try:
             self.editor.guardar_imagen(ruta)
             messagebox.showinfo("Imagen guardada", f"La imagen se guardó correctamente en:\n{ruta}")
         except Exception as e:
             messagebox.showerror("Error al guardar", f"No se pudo guardar la imagen:\n{e}")
 
-    def evento_click(self, evento):
+    def restaurar_color_api(self):
+        if self.editor.imagen_editada:
+            try:
+                nueva = self.api_manager.restaurar_color(self.editor.imagen_editada)
+                self.editor.imagen_editada = nueva
+                self.editor.actualizar_historial()
+                self.mostrar_imagen()
+            except Exception as e:
+                messagebox.showerror("Error API", f"Error al usar la API:\n{e}")
+
+    def mejorar_calidad_api(self):
+        if self.editor.imagen_editada:
+            try:
+                nueva = self.api_manager.mejorar_calidad(self.editor.imagen_editada)
+                self.editor.imagen_editada = nueva
+                self.editor.actualizar_historial()
+                self.mostrar_imagen()
+            except Exception as e:
+                messagebox.showerror("Error API", f"Error al mejorar calidad:\n{e}")
+
+    def evento_click(self, e):
         if self.modo_recorte_activo:
-            self.inicio_x = evento.x
-            self.inicio_y = evento.y
-            self.rect_id = self.canvas.create_rectangle(self.inicio_x, self.inicio_y, self.inicio_x, self.inicio_y, outline="red")
+            self.inicio_x, self.inicio_y = e.x, e.y
+            self.rect_id = self.canvas.create_rectangle(e.x, e.y, e.x, e.y, outline="red")
         elif self.dibujador.modo_activo:
-            self.coordenadas_dibujo = [(evento.x, evento.y)]
+            self.coordenadas_dibujo = [(e.x, e.y)]
             self.dibujando = True
 
-    def evento_mover(self, evento):
-        if self.modo_recorte_activo and self.rect_id is not None:
-            self.canvas.coords(self.rect_id, self.inicio_x, self.inicio_y, evento.x, evento.y)
+    def evento_mover(self, e):
+        if self.modo_recorte_activo and self.rect_id:
+            self.canvas.coords(self.rect_id, self.inicio_x, self.inicio_y, e.x, e.y)
         elif self.dibujador.modo_activo and self.dibujando:
-            self.coordenadas_dibujo.append((evento.x, evento.y))
+            self.coordenadas_dibujo.append((e.x, e.y))
             if len(self.coordenadas_dibujo) >= 2:
-                nueva_imagen = self.dibujador.dibujar(self.editor.imagen_editada, self.coordenadas_dibujo[-2:])
-                if nueva_imagen:
-                    self.editor.imagen_editada = nueva_imagen
+                nueva_img = self.dibujador.dibujar(self.editor.imagen_editada, self.coordenadas_dibujo[-2:])
+                if nueva_img:
+                    self.editor.imagen_editada = nueva_img
                     self.mostrar_imagen()
 
-    def evento_soltado(self, evento):
+    def evento_soltado(self, e):
         if self.modo_recorte_activo:
-            x1, y1 = self.inicio_x, self.inicio_y
-            x2, y2 = evento.x, evento.y
-            coordenadas = (x1, y1, x2, y2)
-            nueva = Recorte.recortar(self.editor.imagen_editada, coordenadas)
+            coords = (self.inicio_x, self.inicio_y, e.x, e.y)
+            nueva = Recorte.recortar(self.editor.imagen_editada, coords)
             if nueva:
                 self.editor.imagen_editada = nueva
                 self.editor.actualizar_historial()
@@ -257,7 +219,6 @@ class InterfazEditor:
             self.canvas.delete(self.rect_id)
             self.rect_id = None
             self.modo_recorte_activo = False
-
         elif self.dibujador.modo_activo and self.dibujando:
             self.dibujando = False
             self.coordenadas_dibujo.clear()
