@@ -179,25 +179,3 @@ class EditorImagen:
         imagen_filtrada = filtro.aplicar_filtro(self.imagen_editada)
         self.imagen_editada = imagen_filtrada
         self.actualizar_historial()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
