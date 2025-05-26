@@ -34,6 +34,7 @@ class InterfazEditor:
         btn_cargar = ctk.CTkButton(frame_botones, text="💻 Cargar Imagen", command=self.cargar_imagen)
         btn_cargar.pack(pady=5)
 
+        ctk.CTkLabel(frame_botones, text="Filtros:", anchor="w").pack(pady=(20, 2), fill="x")
         self.opciones_filtro = ["grises", "invertir", "brillo", "contraste"]
         self.filtro_seleccionado = ctk.StringVar(value=self.opciones_filtro[0])
         menu_filtros = ctk.CTkOptionMenu(frame_botones, variable=self.filtro_seleccionado, values=self.opciones_filtro)
@@ -41,7 +42,8 @@ class InterfazEditor:
 
         ctk.CTkButton(frame_botones, text="🎨 Aplicar Filtro", command=self.aplicar_filtro_desde_interfaz).pack(pady=5)
 
-        ctk.CTkButton(frame_botones, text="✂️ Recortar", command=self.activar_recorte).pack(pady=5)
+        ctk.CTkLabel(frame_botones, text="Recorte:", anchor="w").pack(pady=(20, 2), fill="x")
+        ctk.CTkButton(frame_botones, text="✂️ Recortar", command=self.activar_recorte).pack(pady=(0, 10))
 
         frame_canvas = ctk.CTkFrame(main_frame, width=700, height=600)
         frame_canvas.pack(side="left", padx=10, pady=10, fill="both", expand=True)
@@ -71,11 +73,13 @@ class InterfazEditor:
         ctk.CTkLabel(frame_api, text="Dibujo:", anchor="w").pack(pady=(20, 2), fill="x")
         ctk.CTkButton(frame_api, text="✅ Activar Dibujo", command=self.activar_modo_dibujo).pack(pady=3)
         ctk.CTkButton(frame_api, text="❌ Desactivar Dibujo", command=self.desactivar_modo_dibujo).pack(pady=3)
-        ctk.CTkLabel(frame_api, text="🎨 Color del lápiz:").pack(pady=(10, 0))
+
+        ctk.CTkLabel(frame_api, text="Color Lápiz:", anchor="w").pack(pady=(20, 2), fill="x")
         self.selector_color = ctk.CTkOptionMenu(frame_api, values=["black", "red", "green", "blue", "yellow", "white"], command=self.cambiar_color_lapiz)
         self.selector_color.set("black")
         self.selector_color.pack(pady=5)
-        ctk.CTkLabel(frame_api, text="✏️ Grosor del lápiz:").pack(pady=(10, 0))
+
+        ctk.CTkLabel(frame_api, text="Grosor del lápiz:", anchor="w").pack(pady=(20, 2), fill="x")
         self.slider_grosor = ctk.CTkSlider(frame_api, from_=1, to=20, number_of_steps=19, command=self.cambiar_grosor_lapiz)
         self.slider_grosor.set(3)
         self.slider_grosor.pack(pady=5)
@@ -93,6 +97,7 @@ class InterfazEditor:
                 self.mostrar_imagen()
 
         self.ventana.mainloop()
+
 
     def mostrar_feedback(self, mensaje):
         messagebox.showinfo("Info", mensaje)
