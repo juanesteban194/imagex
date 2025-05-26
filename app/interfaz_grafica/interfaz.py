@@ -7,7 +7,6 @@ from app.Clases_principales.Recorte import Recorte
 from app.api.api_manager import ApiManager
 import os
 
-
 class InterfazEditor:
     def __init__(self, api_manager: ApiManager, ruta_inicial: str = None):
         ctk.set_appearance_mode("dark")
@@ -22,7 +21,7 @@ class InterfazEditor:
 
         self.ventana = ctk.CTk()
         self.ventana.title("Editor de Imágenes")
-        self.ventana.geometry("800x600")
+        self.ventana.geometry("1200x650")
 
         self.imagen_editada_backup = None
 
@@ -41,23 +40,8 @@ class InterfazEditor:
         menu_filtros.pack(pady=5)
 
         ctk.CTkButton(frame_botones, text="🎨 Aplicar Filtro", command=self.aplicar_filtro_desde_interfaz).pack(pady=5)
-        ctk.CTkButton(frame_botones, text="✨ Mejorar Calidad (API)", command=self.mejorar_calidad_api).pack(pady=5)
-        ctk.CTkButton(frame_botones, text="🧪 Restaurar Color (API)", command=self.restaurar_color_api).pack(pady=5)
-        ctk.CTkButton(frame_botones, text="🖑 Activar Dibujo", command=self.activar_modo_dibujo).pack(pady=5)
-        ctk.CTkButton(frame_botones, text="❌ Desactivar Dibujo", command=self.desactivar_modo_dibujo).pack(pady=5)
 
-        ctk.CTkLabel(frame_botones, text="🎨 Color del lápiz:").pack(pady=(10, 0))
-        self.selector_color = ctk.CTkOptionMenu(frame_botones, values=["black", "red", "green", "blue", "yellow", "white"], command=self.cambiar_color_lapiz)
-        self.selector_color.set("black")
-        self.selector_color.pack(pady=5)
-
-        ctk.CTkLabel(frame_botones, text="✏️ Grosor del lápiz:").pack(pady=(10, 0))
-        self.slider_grosor = ctk.CTkSlider(frame_botones, from_=1, to=20, number_of_steps=19, command=self.cambiar_grosor_lapiz)
-        self.slider_grosor.set(3)
-        self.slider_grosor.pack(pady=5)
-
-        ctk.CTkLabel(frame_botones, text="").pack(expand=True, fill="both")
-        ctk.CTkButton(frame_botones, text="✂️ Recortar", command=self.activar_recorte).pack(pady=5, side="bottom")
+        ctk.CTkButton(frame_botones, text="✂️ Recortar", command=self.activar_recorte).pack(pady=5)
 
         frame_canvas = ctk.CTkFrame(main_frame, width=700, height=600)
         frame_canvas.pack(side="left", padx=10, pady=10, fill="both", expand=True)
@@ -78,6 +62,24 @@ class InterfazEditor:
         self.canvas = ctk.CTkCanvas(frame_canvas, bg="gray")
         self.canvas.pack(fill="both", expand=True)
 
+        frame_api = ctk.CTkFrame(main_frame, width=180)
+        frame_api.pack(side="left", fill="y", padx=10, pady=10)
+        ctk.CTkLabel(frame_api, text="Funciones API:", anchor="w").pack(pady=(5, 2), fill="x")
+        ctk.CTkButton(frame_api, text="✨ Mejorar Calidad (API)", command=self.mejorar_calidad_api).pack(pady=3)
+        ctk.CTkButton(frame_api, text="🧪 Restaurar Color (API)", command=self.restaurar_color_api).pack(pady=3)
+
+        ctk.CTkLabel(frame_api, text="Dibujo:", anchor="w").pack(pady=(20, 2), fill="x")
+        ctk.CTkButton(frame_api, text="✅ Activar Dibujo", command=self.activar_modo_dibujo).pack(pady=3)
+        ctk.CTkButton(frame_api, text="❌ Desactivar Dibujo", command=self.desactivar_modo_dibujo).pack(pady=3)
+        ctk.CTkLabel(frame_api, text="🎨 Color del lápiz:").pack(pady=(10, 0))
+        self.selector_color = ctk.CTkOptionMenu(frame_api, values=["black", "red", "green", "blue", "yellow", "white"], command=self.cambiar_color_lapiz)
+        self.selector_color.set("black")
+        self.selector_color.pack(pady=5)
+        ctk.CTkLabel(frame_api, text="✏️ Grosor del lápiz:").pack(pady=(10, 0))
+        self.slider_grosor = ctk.CTkSlider(frame_api, from_=1, to=20, number_of_steps=19, command=self.cambiar_grosor_lapiz)
+        self.slider_grosor.set(3)
+        self.slider_grosor.pack(pady=5)
+
         self.rect_id = None
         self.inicio_x = 0
         self.inicio_y = 0
@@ -92,6 +94,9 @@ class InterfazEditor:
 
         self.ventana.mainloop()
 
+    def mostrar_feedback(self, mensaje):
+        messagebox.showinfo("Info", mensaje)
+
     def cargar_imagen(self):
         ruta = filedialog.askopenfilename(title="Selecciona una imagen", filetypes=[("Imágenes JPG", "*.jpg *.jpeg")])
         if not ruta:
@@ -103,6 +108,7 @@ class InterfazEditor:
             self.editor.actualizar_historial()
             self.imagen_editada_backup = self.editor.imagen_editada.copy()
             self.mostrar_imagen()
+            self.mostrar_feedback("📷 Imagen cargada correctamente")
         except Exception as e:
             messagebox.showerror("Error", f"No se pudo cargar la imagen:\n{e}")
 
@@ -121,14 +127,17 @@ class InterfazEditor:
         self.editor.aplicar_filtro(self.filtro_seleccionado.get())
         self.imagen_editada_backup = self.editor.imagen_editada.copy()
         self.mostrar_imagen()
+        self.mostrar_feedback("🎨 Filtro aplicado")
 
     def activar_modo_dibujo(self):
         self.dibujador.activar_modo_dibujo()
         self.modo_recorte_activo = False
+        self.mostrar_feedback("🖊️ Dibujo activado")
 
     def desactivar_modo_dibujo(self):
         self.dibujador.desactivar_modo_dibujo()
         self.coordenadas_dibujo.clear()
+        self.mostrar_feedback("❌ Dibujo desactivado")
 
     def cambiar_color_lapiz(self, color):
         self.dibujador.cambiar_color(color)
@@ -139,6 +148,7 @@ class InterfazEditor:
     def activar_recorte(self):
         self.dibujador.desactivar_modo_dibujo()
         self.modo_recorte_activo = True
+
 
     def deshacer_cambio(self):
         self.editor.deshacer_cambio()
@@ -154,6 +164,7 @@ class InterfazEditor:
         self.imagen_editada_backup = self.editor.imagen_editada.copy()
         self.editor.restaurar_original()
         self.mostrar_imagen()
+        self.mostrar_feedback("Imagen restaurada")
 
     def guardar_imagen(self):
         if self.editor.imagen_editada is None:
@@ -175,6 +186,7 @@ class InterfazEditor:
                 self.editor.imagen_editada = nueva
                 self.editor.actualizar_historial()
                 self.mostrar_imagen()
+                self.mostrar_feedback("Color restaurado")
             except Exception as e:
                 messagebox.showerror("Error API", f"Error al usar la API:\n{e}")
 
@@ -185,6 +197,7 @@ class InterfazEditor:
                 self.editor.imagen_editada = nueva
                 self.editor.actualizar_historial()
                 self.mostrar_imagen()
+                self.mostrar_feedback("Calidad mejorada")
             except Exception as e:
                 messagebox.showerror("Error API", f"Error al mejorar calidad:\n{e}")
 
@@ -201,28 +214,79 @@ class InterfazEditor:
             self.canvas.coords(self.rect_id, self.inicio_x, self.inicio_y, e.x, e.y)
         elif self.dibujador.modo_activo and self.dibujando:
             self.coordenadas_dibujo.append((e.x, e.y))
-            if len(self.coordenadas_dibujo) >= 2:
-                nueva_img = self.dibujador.dibujar(self.editor.imagen_editada, self.coordenadas_dibujo[-2:])
-                if nueva_img:
-                    self.editor.imagen_editada = nueva_img
-                    self.mostrar_imagen()
+            if self.editor.imagen_editada and len(self.coordenadas_dibujo) >= 2:
+                w_img, h_img = self.editor.imagen_editada.size
+                w_canvas, h_canvas = self.canvas.winfo_width(), self.canvas.winfo_height()
+                scale_x = w_img / w_canvas
+                scale_y = h_img / h_canvas
+
+                coords_img = [
+                    (int(x * scale_x), int(y * scale_y))
+                    for x, y in self.coordenadas_dibujo
+                ]
+
+                img_preview = self.editor.imagen_editada.copy()
+                img_preview = self.dibujador.dibujar(
+                    img_preview,
+                    coordenadas=coords_img,
+                    color=self.dibujador.color_lapiz,
+                    grosor=self.dibujador.grosor_lapiz,
+                    centrado=True
+                )
+
+                resized_preview = img_preview.resize((w_canvas, h_canvas))
+                self.img_tk = ImageTk.PhotoImage(resized_preview)
+                self.canvas.delete("all")
+                self.canvas.create_image(0, 0, anchor="nw", image=self.img_tk)
 
     def evento_soltado(self, e):
-        if self.modo_recorte_activo:
-            coords = (self.inicio_x, self.inicio_y, e.x, e.y)
-            nueva = Recorte.recortar(self.editor.imagen_editada, coords)
-            if nueva:
-                self.editor.imagen_editada = nueva
+        if self.dibujador.modo_activo and self.dibujando:
+            self.dibujando = False
+            if self.coordenadas_dibujo:
+                w_img, h_img = self.editor.imagen_editada.size
+                w_canvas, h_canvas = self.canvas.winfo_width(), self.canvas.winfo_height()
+                scale_x = w_img / w_canvas
+                scale_y = h_img / h_canvas
+
+                coords_img = [
+                    (int(x * scale_x), int(y * scale_y))
+                    for x, y in self.coordenadas_dibujo
+                ]
+
+                nueva_img = self.dibujador.dibujar(
+                    self.editor.imagen_editada,
+                    coordenadas=coords_img,
+                    color=self.dibujador.color_lapiz,
+                    grosor=self.dibujador.grosor_lapiz,
+                    centrado=True
+                )
+                self.editor.imagen_editada = nueva_img
                 self.editor.actualizar_historial()
-                self.imagen_editada_backup = nueva.copy()
                 self.mostrar_imagen()
+                self.coordenadas_dibujo.clear()
+
+        elif self.modo_recorte_activo:
+            coords_canvas = (self.inicio_x, self.inicio_y, e.x, e.y)
+            if self.editor.imagen_editada:
+                w_img, h_img = self.editor.imagen_editada.size
+                w_canvas, h_canvas = self.canvas.winfo_width(), self.canvas.winfo_height()
+
+                scale_x = w_img / w_canvas
+                scale_y = h_img / h_canvas
+
+                x1, y1, x2, y2 = coords_canvas
+                x1_img = int(x1 * scale_x)
+                y1_img = int(y1 * scale_y)
+                x2_img = int(x2 * scale_x)
+                y2_img = int(y2 * scale_y)
+
+                if self.editor.recortar_imagen((x1_img, y1_img, x2_img, y2_img)):
+                    self.imagen_editada_backup = self.editor.imagen_editada.copy()
+                    self.mostrar_imagen()
+
             self.canvas.delete(self.rect_id)
             self.rect_id = None
             self.modo_recorte_activo = False
-        elif self.dibujador.modo_activo and self.dibujando:
-            self.dibujando = False
-            self.coordenadas_dibujo.clear()
-            self.editor.actualizar_historial()
 
     def actualizar_botones_historial(self):
         if hasattr(self, "btn_deshacer"):
